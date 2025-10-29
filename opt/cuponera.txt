@@ -1,0 +1,130 @@
+-- Crear la base de datos
+DROP DATABASE IF EXISTS cuponera;
+CREATE DATABASE cuponera CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE cuponera;
+
+-- Crear tabla: admincuentas
+CREATE TABLE admincuentas (
+  adminId INT NOT NULL AUTO_INCREMENT,
+  nivel ENUM('administrador','gerente','ventas','web') NOT NULL,
+  FechaCreado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  nombre VARCHAR(50) NOT NULL,
+  apellido VARCHAR(50) NOT NULL,
+  correo VARCHAR(100) NOT NULL,
+  telefono VARCHAR(20) DEFAULT NULL,
+  usuario VARCHAR(25) NOT NULL,
+  contraseña VARCHAR(255) NOT NULL,
+  PRIMARY KEY (adminId),
+  UNIQUE KEY (correo),
+  UNIQUE KEY (usuario)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insertar datos en admincuentas
+INSERT INTO admincuentas (adminId, nivel, FechaCreado, nombre, apellido, correo, telefono, usuario, contraseña)
+VALUES (1, 'administrador', '2025-10-20 12:56:18', 'Master', 'Admin', 'webmaster@cuponera.sv', '503555252', 'admin', '$2y$10$/NydLvysFoxHRwR6lchFiuq5ymH3COiAcuZc7bRmdR0xpZGFLTSEq');
+
+-- Crear tabla: contactos
+CREATE TABLE contactos (
+  contactoId INT NOT NULL AUTO_INCREMENT,
+  telefono VARCHAR(20) DEFAULT NULL,
+  calle VARCHAR(255) NOT NULL,
+  ciudad VARCHAR(100) NOT NULL,
+  puntoRef TEXT,
+  PRIMARY KEY (contactoId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insertar datos en contactos
+INSERT INTO contactos (contactoId, telefono, calle, ciudad, puntoRef)
+VALUES 
+  (2, '4036696517', '200 El milagro', 'San Salvador', 'Palo de Mango'),
+  (3, '5035323232', '235 Ilopango', 'Soyapango', NULL);
+
+-- Crear tabla: clientes
+CREATE TABLE clientes (
+  clienteId INT NOT NULL AUTO_INCREMENT,
+  adminId INT NOT NULL,
+  contactoId INT NOT NULL,
+  FechaCreado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  estado ENUM('pendiente','activo','Desactivo') NOT NULL,
+  nombre VARCHAR(50) NOT NULL,
+  apellido VARCHAR(50) NOT NULL,
+  nacimiento DATE NOT NULL,
+  correo VARCHAR(100) NOT NULL,
+  usuario VARCHAR(25) NOT NULL,
+  contraseña VARCHAR(255) NOT NULL,
+  PRIMARY KEY (clienteId),
+  UNIQUE KEY (correo),
+  UNIQUE KEY (usuario),
+  KEY (adminId),
+  KEY (contactoId),
+  CONSTRAINT clientes_ibfk_1 FOREIGN KEY (adminId) REFERENCES admincuentas (adminId),
+  CONSTRAINT clientes_ibfk_2 FOREIGN KEY (contactoId) REFERENCES contactos (contactoId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insertar datos en clientes
+INSERT INTO clientes (clienteId, adminId, contactoId, FechaCreado, estado, nombre, apellido, nacimiento, correo, usuario, contraseña)
+VALUES (2, 1, 2, '2025-10-04 12:56:41', 'pendiente', 'Lisandro Rafael', 'Berdugo Artiga', '1995-11-18', 'lberdugo@udb.com.sv', 'lberdugo', '$2y$10$No81vaozXgC3c0zv02oYnOtRS5iGD1/qsH9lrZNRC7USjlAQTmmXK');
+
+-- Crear tabla: empresas
+CREATE TABLE empresas (
+  empresaId INT NOT NULL AUTO_INCREMENT,
+  adminId INT NOT NULL,
+  fechaCreado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  nombreEmpresa VARCHAR(100) NOT NULL,
+  NIT VARCHAR(20) NOT NULL,
+  contactoId INT NOT NULL,
+  estado ENUM('pendiente','activo','Desactivo') NOT NULL,
+  correo VARCHAR(25) NOT NULL,
+  usuario VARCHAR(25) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (empresaId),
+  UNIQUE KEY (correo),
+  KEY (adminId),
+  KEY (contactoId),
+  CONSTRAINT empresas_ibfk_1 FOREIGN KEY (adminId) REFERENCES admincuentas (adminId),
+  CONSTRAINT empresas_ibfk_2 FOREIGN KEY (contactoId) REFERENCES contactos (contactoId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Insertar datos en empresas
+INSERT INTO empresas (empresaId, adminId, fechaCreado, nombreEmpresa, NIT, contactoId, estado, correo, usuario, password)
+VALUES (1, 1, '2025-10-04 12:59:14', 'Hotel Vista Lago', '061408071985', 3, 'pendiente', 'info@hotelvistalago.sv', 'vistalago', '$2y$10$vm1Sn3Dh0m5UH0cU5c1dNeiY0L.g6juU1vdieV1SFKcB7Y/Q6Rrsy');
+
+-- Crear tabla: cupones
+CREATE TABLE cupones (
+  cuponId INT NOT NULL AUTO_INCREMENT,
+  empresaId INT NOT NULL,
+  estado ENUM('activo','Desactivo') NOT NULL,
+  FechaCreado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  Actualizar TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FechaInicio DATE NOT NULL,
+  FechaFin DATE NOT NULL,
+  nombreCupon VARCHAR(100) NOT NULL,
+  CodigoCupon VARCHAR(50) DEFAULT NULL,
+  descripcion TEXT NOT NULL,
+  totalDisp INT NOT NULL,
+  maximo INT NOT NULL,
+  precioRegular DECIMAL(10,2) NOT NULL,
+  precioPromocion DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (cuponId),
+  KEY (empresaId),
+  CONSTRAINT cupones_ibfk_1 FOREIGN KEY (empresaId) REFERENCES empresas (empresaId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Crear tabla: transacciones
+CREATE TABLE transacciones (
+  transaccionId INT NOT NULL AUTO_INCREMENT,
+  clienteId INT NOT NULL,
+  cuponId INT NOT NULL,
+  FechaCreado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  estado ENUM('pendiente','completado','cancelado','Reintegrado') NOT NULL,
+  cantidad INT NOT NULL,
+  impuesto DECIMAL(10,2) NOT NULL,
+  TotalPagar DECIMAL(10,2) NOT NULL,
+  MetodoPago ENUM('TarjetaCredito','Bitcoin','efectivo') NOT NULL,
+  DetallesPago TEXT,
+  PRIMARY KEY (transaccionId),
+  KEY (clienteId),
+  KEY (cuponId),
+  CONSTRAINT transacciones_ibfk_1 FOREIGN KEY (clienteId) REFERENCES clientes (clienteId),
+  CONSTRAINT transacciones_ibfk_2 FOREIGN KEY (cuponId) REFERENCES cupones (cuponId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

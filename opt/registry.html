@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="shopApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Tienda de tickets</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/about.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://kit.fontawesome.com/489b0ad0ad.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../updateCartIcon.js"></script>
+</head>
+<body ng-controller="shopController">
+<section id="header">
+    <a href="#"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
+    <div>
+        <ul id="navbar">
+            <li><a href="../index.html">Inicio</a></li>
+            <li><a href="../opt/shop.html">Tienda</a></li>
+            <li><a href="../opt/contact.html">Contacto</a></li>
+            <li><a href="../opt/registry.html">Registrate</a></li>
+            <li><a href="../opt/cart.html"><i class="fa fa-shopping-cart"></i><span id="cart-plus-sign"></span></a></li>
+            <li><a class= "active" href="../opt/login.html"><i class="fa fa-user"></i></a></li>
+        </ul>
+    </div>
+</section>
+<div id="cliente">
+    <a href="registro_clientes.php">Registro de Clientes</a>
+</div>
+<div id="empresa">
+    <a href="registro_empresas.php">Registro de Empresas</a>
+</div>
+</body>
+</html>
