@@ -2,33 +2,86 @@
 <html lang="es" ng-app="shopApp">
 <head>
     <meta charset="UTF-8">
-    <title>Tienda de tickets</title>
+    <title>Registro - Tienda de Tickets</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/about.css">
+    <link rel="stylesheet" href="../css/login-choice.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://kit.fontawesome.com/489b0ad0ad.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../updateCartIcon.js"></script>
 </head>
 <body ng-controller="shopController">
-<section id="header">
-    <a href="#"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
-    <div>
-        <ul id="navbar">
-            <li><a href="../index.html">Inicio</a></li>
-            <li><a href="../opt/shop.html">Tienda</a></li>
-            <li><a href="../opt/contact.html">Contacto</a></li>
-            <li><a href="../opt/registry.html">Registrate</a></li>
-            <li><a href="../opt/cart.html"><i class="fa fa-shopping-cart"></i><span id="cart-plus-sign"></span></a></li>
-            <li><a class= "active" href="../opt/login.html"><i class="fa fa-user"></i></a></li>
-        </ul>
-    </div>
-</section>
-<div id="cliente">
-    <a href="registro_clientes.php">Registro de Clientes</a>
-</div>
-<div id="empresa">
-    <a href="registro_empresas.php">Registro de Empresas</a>
-</div>
+
+    <!-- NAVBAR -->
+    <section id="header">
+        <a href="#"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../opt/shop.html">Tienda</a></li>
+                <li><a href="../opt/contact.html">Contacto</a></li>
+                <li><a class="active" href="../opt/registro.html">Regístrate</a></li>
+                <li><a href="../opt/cart.html"><i class="fa fa-shopping-cart"></i><span id="cart-plus-sign"></span></a></li>
+                <li><a href="../opt/login.html"><i class="fa fa-user"></i></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="login-choice">
+        <div class="choice-container">
+            <!-- Panel de información -->
+            <div class="info-panel" id="infoPanel">
+                <h2 id="panelTitle">Registro de Cliente</h2>
+                <p id="panelText">Crea una cuenta para acceder a tus compras y promociones personalizadas.</p>
+                <button id="registerBtn" class="btn-ingresar">Registrarme</button>
+            </div>
+
+            <!-- Fondo -->
+            <div class="bg-panel"></div>
+        </div>
+
+        <!-- Botones para elegir tipo de registro -->
+        <div class="choice-buttons">
+            <button class="btn-select btn-client" id="btnCliente">Registro de Cliente</button>
+            <button class="btn-select btn-company" id="btnEmpresa">Registro de Empresa</button>
+        </div>
+    </main>
+
+    <!-- SCRIPT -->
+    <script>
+        const infoPanel = document.getElementById('infoPanel');
+        const title = document.getElementById('panelTitle');
+        const text = document.getElementById('panelText');
+        const registerBtn = document.getElementById('registerBtn');
+        const btnCliente = document.getElementById('btnCliente');
+        const btnEmpresa = document.getElementById('btnEmpresa');
+
+        // --- Estado inicial: vista Cliente activa ---
+        infoPanel.classList.remove('right');
+        title.textContent = 'Registro de Cliente';
+        text.textContent = 'Crea una cuenta para acceder a tus compras y promociones personalizadas.';
+        registerBtn.onclick = () => location.href = 'registro_clientes.php';
+
+        // --- Cambiar a vista Cliente ---
+        btnCliente.addEventListener('click', () => {
+            infoPanel.classList.remove('right');
+            title.textContent = 'Registro de Cliente';
+            text.textContent = 'Crea una cuenta para acceder a tus compras y promociones personalizadas.';
+            registerBtn.onclick = () => location.href = 'registro_clientes.php';
+        });
+
+        // --- Cambiar a vista Empresa ---
+        btnEmpresa.addEventListener('click', () => {
+            infoPanel.classList.add('right');
+            title.textContent = 'Registro de Empresa';
+            text.textContent = 'Crea una cuenta para gestionar tus campañas y ventas fácilmente.';
+            registerBtn.onclick = () => location.href = 'registro_empresas.php';
+        });
+    </script>
 </body>
 </html>

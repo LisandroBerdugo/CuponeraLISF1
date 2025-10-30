@@ -2,33 +2,86 @@
 <html lang="es" ng-app="shopApp">
 <head>
     <meta charset="UTF-8">
-    <title>Tienda de tickets</title>
+    <title>Tienda de Tickets</title>
+
+    <!-- CSS Globales -->
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/about.css">
+    <link rel="stylesheet" href="../css/login-choice.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <script src="https://kit.fontawesome.com/489b0ad0ad.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="../updateCartIcon.js"></script>
 </head>
 <body ng-controller="shopController">
-<section id="header">
-    <a href="#"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
-    <div>
-        <ul id="navbar">
-            <li><a href="../index.html">Inicio</a></li>
-            <li><a href="../opt/shop.html">Tienda</a></li>
-            <li><a href="../opt/contact.html">Contacto</a></li>
-            <li><a href="../opt/registry.html">Registrate</a></li>
-            <li><a href="../opt/cart.html"><i class="fa fa-shopping-cart"></i><span id="cart-plus-sign"></span></a></li>
-            <li><a class= "active" href="opt/login.html"><i class="fa fa-user"></i></a></li>
-        </ul>
-    </div>
-</section>
-<div id="cliente">
-    <a href="login_cliente.php">Inicio de Sesion de Clientes</a>
-</div>
-<div id="empresa">
-    <a href="login_empresa.php">Inicio de Sesion de Empresas</a>
-</div>
+
+    <!-- NAVBAR -->
+    <section id="header">
+        <a href="#"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
+        <div>
+            <ul id="navbar">
+                <li><a href="../index.html">Inicio</a></li>
+                <li><a href="../opt/shop.html">Tienda</a></li>
+                <li><a href="../opt/contact.html">Contacto</a></li>
+                <li><a class="active" href="../opt/registry.html">Regístrate</a></li>
+                <li><a href="../opt/cart.html"><i class="fa fa-shopping-cart"></i><span id="cart-plus-sign"></span></a></li>
+                <li><a href="../opt/login.html"><i class="fa fa-user"></i></a></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="login-choice">
+        <div class="choice-container">
+            <!-- Panel de información -->
+            <div class="info-panel" id="infoPanel">
+                <h2 id="panelTitle">Bienvenido Cliente</h2>
+                <p id="panelText">Accede a tus compras, promociones y eventos personalizados.</p>
+                <button id="loginBtn" class="btn-ingresar">Ingresar</button>
+            </div>
+
+            <!-- Fondo -->
+            <div class="bg-panel"></div>
+        </div>
+
+        <!-- Botones -->
+        <div class="choice-buttons">
+            <button class="btn-select btn-client" id="btnCliente">Inicio de Sesión Cliente</button>
+            <button class="btn-select btn-company" id="btnEmpresa">Inicio de Sesión Empresa</button>
+        </div>
+    </main>
+
+    <!-- SCRIPT -->
+    <script>
+    const infoPanel = document.getElementById('infoPanel');
+    const title = document.getElementById('panelTitle');
+    const text = document.getElementById('panelText');
+    const loginBtn = document.getElementById('loginBtn');
+    const btnCliente = document.getElementById('btnCliente');
+    const btnEmpresa = document.getElementById('btnEmpresa');
+
+    // Estado inicial "vista de Cliente activa"
+    infoPanel.classList.remove('right');
+    title.textContent = 'Bienvenido Cliente';
+    text.textContent = 'Accede a tus compras, promociones y eventos personalizados.';
+    loginBtn.onclick = () => location.href = 'login_cliente.php';
+
+    // Cambiar a vista de Cliente
+    btnCliente.addEventListener('click', () => {
+        infoPanel.classList.remove('right');
+        title.textContent = 'Bienvenido Cliente';
+        text.textContent = 'Accede a tus compras, promociones y eventos personalizados.';
+        loginBtn.onclick = () => location.href = 'login_cliente.php';
+    });
+
+    // Cambiar a vista de Empresa
+    btnEmpresa.addEventListener('click', () => {
+        infoPanel.classList.add('right');
+        title.textContent = 'Bienvenido Empresa';
+        text.textContent = 'Administra tus campañas, analiza ventas y gestiona tus clientes.';
+        loginBtn.onclick = () => location.href = 'login_empresa.php';
+    });
+</script>
 </body>
 </html>
