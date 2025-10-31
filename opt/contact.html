@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="shopApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contacta con EcoModa - La Coponera SV. Visítanos en San Salvador o contáctanos por teléfono, WhatsApp o redes sociales.">
+    <title>Contacto - EcoModa | La Coponera SV</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/about.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://kit.fontawesome.com/489b0ad0ad.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../updateCartIcon.js"></script>
+    <style>
+        .contact-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .contact-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .contact-header h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .contact-header p {
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .contact-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .contact-card i {
+            font-size: 2.5em;
+            color: #088178;
+            margin-bottom: 15px;
+        }
+
+        .contact-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .contact-card p {
+            color: #666;
+            line-height: 1.8;
+            margin: 5px 0;
+        }
+
+        .contact-card a {
+            color: #088178;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-card a:hover {
+            color: #065f56;
+            text-decoration: underline;
+        }
+
+        .map-container {
+            margin: 50px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+
+        .contact-form {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
+        }
+
+        .contact-form h2 {
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #088178;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: #088178;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background: #065f56;
+        }
+
+        .social-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .social-section h3 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+        }
+
+        .social-icons {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icons li a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: #088178;
+            color: white;
+            border-radius: 50%;
+            font-size: 1.5em;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-icons li a:hover {
+            background: #065f56;
+            transform: scale(1.1);
+        }
+
+        address {
+            font-style: normal;
+        }
+
+        @media (max-width: 768px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body ng-controller="shopController">
+<section id="header">
+    <a href="#"><img src="../img/logo.png" class="logo" alt="Logo EcoModa"></a>
+    <div>
+        <ul id="navbar">
+            <li><a href="../index.html">Inicio</a></li>
+            <li><a href="../opt/shop.html">Tienda</a></li>
+            <li><a class="active" href="../opt/contact.html">Contacto</a></li>
+            <li><a href="../opt/registry.html">Registrate</a></li>
+            <li><a href="../opt/cart.html"><i class="fa fa-shopping-cart"></i><span id="cart-plus-sign"></span></a></li>
+        </ul>
+    </div>
+</section>
+
+<div class="contact-container">
+    <div class="contact-header">
+        <h1>Contáctanos</h1>
+        <p>Estamos aquí para ayudarte. ¡Nos encantaría saber de ti!</p>
+    </div>
+
+    <div class="contact-grid">
+        <div class="contact-card">
+            <i class="fa fa-map-marker"></i>
+            <h3>Nuestra Ubicación</h3>
+            <address>
+                <p><strong>La Coponera SV</strong></p>
+                <p>Avenida Principal #123</p>
+                <p>Centro Comercial Plaza Mayor</p>
+                <p>San Salvador, El Salvador</p>
+            </address>
+        </div>
+
+        <div class="contact-card">
+            <i class="fa fa-phone"></i>
+            <h3>Teléfono y WhatsApp</h3>
+            <p><i class="fa fa-phone-square"></i> <a href="tel:+50378901234">+503 7890-1234</a></p>
+            <p><i class="fa fa-whatsapp"></i> <a href="https://wa.me/50378905678" target="_blank">+503 7890-5678</a></p>
+            <p style="margin-top: 15px; font-size: 0.9em; color: #999;">Haz clic para llamar o chatear</p>
+        </div>
+
+        <div class="contact-card">
+            <i class="fa fa-envelope"></i>
+            <h3>Correo Electrónico</h3>
+            <p><a href="mailto:info@lacoponerasv.com">info@lacoponerasv.com</a></p>
+            <p><a href="mailto:ventas@lacoponerasv.com">ventas@lacoponerasv.com</a></p>
+        </div>
+
+        <div class="contact-card">
+            <i class="fa fa-clock-o"></i>
+            <h3>Horario de Atención</h3>
+            <p><strong>Lunes a Viernes:</strong></p>
+            <p>9:00 AM - 6:00 PM</p>
+            <p><strong>Sábados:</strong></p>
+            <p>9:00 AM - 2:00 PM</p>
+            <p><strong>Domingos:</strong> Cerrado</p>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15406.445847837926!2d-89.2181803!3d13.6929403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f633001f5c9e7e5%3A0x7b9f6e5c5e5e5e5e!2sSan%20Salvador%2C%20El%20Salvador!5e0!3m2!1ses!2ssv!4v1234567890123!5m2!1ses!2ssv" 
+            allowfullscreen="" 
+            loading="lazy">
+        </iframe>
+    </div>
+
+    <div class="contact-form">
+        <h2>Envíanos un Mensaje</h2>
+        <form id="contactForm">
+            <div class="form-group">
+                <label for="name">Nombre Completo *</label>
+                <input type="text" id="name" name="name" required placeholder="Tu nombre">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Correo Electrónico *</label>
+                <input type="email" id="email" name="email" required placeholder="tu@email.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Teléfono</label>
+                <input type="tel" id="phone" name="phone" placeholder="+503 0000-0000">
+            </div>
+            
+            <div class="form-group">
+                <label for="subject">Asunto *</label>
+                <input type="text" id="subject" name="subject" required placeholder="¿En qué podemos ayudarte?">
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Mensaje *</label>
+                <textarea id="message" name="message" required placeholder="Escribe tu mensaje aquí..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">
+                <i class="fa fa-paper-plane"></i> Enviar Mensaje
+            </button>
+        </form>
+    </div>
+
+    <div class="social-section">
+        <h3>Síguenos en Redes Sociales</h3>
+        <ul class="social-icons">
+            <li><a href="https://facebook.com/lacoponerasv" target="_blank" class="fa fa-facebook" aria-label="Facebook"></a></li>
+            <li><a href="https://twitter.com/lacoponerasv" target="_blank" class="fa fa-twitter" aria-label="Twitter"></a></li>
+            <li><a href="https://instagram.com/lacoponerasv" target="_blank" class="fa fa-instagram" aria-label="Instagram"></a></li>
+            <li><a href="https://wa.me/50378905678" target="_blank" class="fa fa-whatsapp" aria-label="WhatsApp"></a></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // Manejo del formulario de contacto
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        Swal.fire({
+            icon: 'success',
+            title: '¡Mensaje Enviado!',
+            text: 'Gracias por contactarnos. Te responderemos pronto.',
+            confirmButtonColor: '#088178'
+        });
+        
+        // Limpiar el formulario
+        this.reset();
+    });
+</script>
+</body>
+</html>
