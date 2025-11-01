@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="form-actions">
             <button type="submit" class="btn-submit">Iniciar Sesión</button>
-            <button type="button" class="btn-secondary" onclick="window.location.href='../index.html'">Volver</button>
+            <button type="button" class="btn-secondary" onclick="location.href='login.html'">Volver</button>
         </div>
 
         <div style="text-align:center; margin-top:20px; font-size:14px;">

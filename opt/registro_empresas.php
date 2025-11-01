@@ -155,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="form-actions">
             <button type="submit" class="btn-submit">Registrar Empresa</button>
-            <button type="button" class="btn-secondary" onclick="window.location.href='../index.html'">Volver</button>
+            <button type="button" class="btn-secondary" onclick="location.href='registry.html'">Volver</button>
         </div>
     </form>
 </div>

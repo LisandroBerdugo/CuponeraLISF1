@@ -3,6 +3,18 @@ require_once 'conexion.php';
 $errors = [];
 $success = '';
 
+function isAdult($dateStr, $years = 18) {
+    $dob = DateTime::createFromFormat('Y-m-d', $dateStr);
+    if (!$dob) return false;
+    $today = new DateTime('today');
+    return $dob <= (clone $today)->modify("-{$years} years");
+}
+
+function validDUI($dui) {
+    // Formato exacto: ########-#
+    return preg_match('/^\d{8}-\d$/', $dui) === 1;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
     $apellido = trim($_POST['apellido'] ?? '');
@@ -13,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telefono = trim($_POST['telefono'] ?? '');
     $calle = trim($_POST['calle'] ?? '');
     $ciudad = trim($_POST['ciudad'] ?? '');
-    $puntoRef = trim($_POST['puntoRef'] ?? '');
+    $dui = trim($_POST['dui'] ?? '');
     $adminId = 1;
 
     if (empty($nombre)) $errors[] = "El nombre es obligatorio.";
@@ -24,6 +36,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($contrasena)) $errors[] = "La contraseña es obligatoria.";
     if (empty($calle)) $errors[] = "La calle es obligatoria.";
     if (empty($ciudad)) $errors[] = "La ciudad es obligatoria.";
+    if (empty($dui)) $errors[] = "El DUI es obligatorio.";
+    if (!empty($nacimiento) && !isAdult($nacimiento, 18)) {
+    $errors[] = "Debes ser mayor de 18 años.";}
+    if (empty($errors)) {
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM clientes WHERE correo = :c OR usuario = :u OR dui = :d");
+    $stmt->execute([':c' => $correo, ':u' => $usuario, ':d' => $dui]);
+    if ($stmt->fetchColumn() > 0) {
+        $errors[] = "Correo, usuario o DUI ya existen.";
+    }
+}
+
 
     if (empty($errors)) {
         try {
@@ -37,26 +60,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':telefono' => $telefono ?: null,
                 ':calle' => $calle,
                 ':ciudad' => $ciudad,
-                ':puntoRef' => $puntoRef ?: null
+                ':puntoRef' => null,
             ]);
             $contactoId = $conn->lastInsertId();
 
             $contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
 
-            $stmt = $conn->prepare("
-                INSERT INTO clientes (adminId, contactoId, estado, nombre, apellido, nacimiento, correo, usuario, contraseña)
-                VALUES (:adminId, :contactoId, 'pendiente', :nombre, :apellido, :nacimiento, :correo, :usuario, :contrasena)
-            ");
+            $stmt = $conn->prepare("INSERT INTO clientes
+      (adminId, contactoId, estado, nombre, apellido, dui, nacimiento, correo, usuario, contraseña)
+    VALUES
+      (:adminId, :contactoId, 'pendiente', :nombre, :apellido, :dui, :nacimiento, :correo, :usuario, :contrasena)");
             $stmt->execute([
-                ':adminId' => $adminId,
-                ':contactoId' => $contactoId,
-                ':nombre' => $nombre,
-                ':apellido' => $apellido,
-                ':nacimiento' => $nacimiento,
-                ':correo' => $correo,
-                ':usuario' => $usuario,
-                ':contrasena' => $contrasenaHash
-            ]);
+            ':adminId'    => $adminId,
+            ':contactoId' => $contactoId,
+            ':nombre'     => $nombre,
+            ':apellido'   => $apellido,
+            ':dui'        => $dui,
+            ':nacimiento' => $nacimiento,
+            ':correo'     => $correo,
+            ':usuario'    => $usuario,
+            ':contrasena' => $contrasenaHash,
+]);
 
             $conn->commit();
             $success = "¡Registro exitoso! Tu cuenta está pendiente de aprobación.";
@@ -144,17 +168,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="form-group">
-                    <label for="puntoRef">Punto de Referencia</label>
-                    <input type="text" id="puntoRef" name="puntoRef" placeholder="Cerca de..." value="<?php echo htmlspecialchars($_POST['puntoRef'] ?? ''); ?>">
+                    <label for="dui">DUI *</label>
+                    <input type="text" id="dui" name="dui" required placeholder="00000000-0" inputmode="numeric"
+                    pattern="\d{8}-\d" maxlength="10" value="<?php echo htmlspecialchars($_POST['dui'] ?? ''); 
+                    ?>"oninput="let v = this.value.replace(/\D/g,'').slice(0,9); this.value = v.length > 8 ? v.slice(0,8) + '-' + v.slice(8) : v;">
                 </div>
             </div>
 
             <div class="form-actions">
                 <button type="submit" class="btn-submit">Registrarse</button>
-                <button type="button" class="btn-secondary" onclick="window.location.href='../index.html'">Volver</button>
+                <button type="button" class="btn-secondary" onclick="location.href='registry.html'">Volver</button>
             </div>
         </form>
     </div>
 
 </body>
 </html>
+                    
