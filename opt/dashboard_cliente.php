@@ -14,6 +14,14 @@ $correo = $_SESSION['correo'] ?? '';
   <title>Panel del Cliente</title>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  integrity="sha512-M9rN6GlAwzSqt7nYZKYbghJ6zN93jANXReOYXyIhZxYxIRh7Ytu9Q1dlAf3y+z/NxJ5pSGpVny7iM5vF5MUuw=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+/>
+
   <style>
     .panel-wrap { max-width: 980px; margin: 40px auto; padding: 0 16px; }
     .card { background:#fff; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.06); padding:24px; }
@@ -44,13 +52,14 @@ $correo = $_SESSION['correo'] ?? '';
 
   <!-- Header -->
   <section id="header">
-    <a href="../index.html"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
+    <a href="../opt/index.php"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
     <div>
       <ul id="navbar">
-        <li><a href="../index.html">Inicio</a></li>
-        <li><a href="shop.html">Tienda</a></li>
-        <li><a href="contact.html">Contacto</a></li>
-        <li><a href="cart.html"><i class="fa fa-shopping-cart"></i></a></li>
+        <li><a href="../opt/index.php">Inicio</a></li>
+        <li><a href="../opt/shop.html">Tienda</a></li>
+        <li><a href="../opt/contact.html">Contacto</a></li>
+        <li><a href="../opt/cart.html"><i class="fa fa-shopping-cart"></i></a></li>
+        
 
         <?php if ($isLogged): ?>
           <!-- Mostrar Dashboard si hay sesión -->
@@ -74,7 +83,10 @@ $correo = $_SESSION['correo'] ?? '';
         <a href="mis_cupones.php">Mis cupones</a>
         <a href="mis_compras.php">Mis compras</a>
         <a href="editar_perfil.php">Editar perfil</a>
-        <a href="salir.php" style="color:#b91c1c;">Cerrar sesión</a>
+         <a href="../opt/login.html">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Cerrar sesión</span>
+</a>
       </div>
 
       <div class="grid">
@@ -90,7 +102,7 @@ $correo = $_SESSION['correo'] ?? '';
     <div class="footer-container">
       <div class="footer-logo">
         <img src="../img/logo.jpg" alt="Tickets LIS UDB">
-        <h3>La Coponera SV</h3>
+        <h3>Tickets LIS UDB</h3>
       </div>
       <div class="footer-info">
         <p>Dirección: Colonial Escalón, 1ra calle poniente #513</p>
@@ -101,15 +113,16 @@ $correo = $_SESSION['correo'] ?? '';
       <div class="footer-social">
         <h4>Síguenos</h4>
         <ul>
-          <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-          <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-          <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-          <li><a href="#"><i class="fa fa-whatsapp"></i></a></li>
+          <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+          <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+          <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+          <li><a href="#"><i class="fa-brands fa-whatsapp"></i></a></li>
         </ul>
       </div>
+
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2025 La Coponera SV - Todos los derechos reservados</p>
+      <p>&copy; 2025 TICKETS LIS UDB SV - Todos los derechos reservados</p>
     </div>
   </footer>
 

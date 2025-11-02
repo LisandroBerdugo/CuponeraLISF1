@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carrito - Tickets LIS UDB</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/cart.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="cart-page">
+
+  <!-- Encabezado -->
+  <section id="header">
+    <a href="../opt/index.php"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="../opt/index.php">Inicio</a></li>
+        <li><a href="shop.html">Tienda</a></li>
+        <li><a href="contact.html">Contacto</a></li>
+        <li><a class="active" href="cart.html">
+          <i class="fa fa-shopping-cart"></i><span id="cart-plus-sign"></span>
+        </a></li>
+        <li>
+        <a href="../opt/login.html">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Cerrar sesión</span>
+        </a>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contenido del carrito -->
+  <main class="cart-shell">
+    <div class="cart-card">
+      <div class="cart-header">Tu carrito</div>
+      <div id="cart-view"></div>
+      <div class="cart-actions">
+        <button class="btn btn-outline" id="btn-clear">Vaciar</button>
+        <button class="btn" id="btn-checkout">Pagar</button>
+      </div>
+    </div>
+  </main>
+
+ 
+  <footer style="background:#111;color:#fff;padding:20px 10px;margin-top:20px;text-align:center;">
+    <p>&copy; 2025 TICKETS LIS UDB - Todos los derechos reservados</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/cart.js"></script>
+  <script>
+    function money(n){ return '$'+n.toFixed(2); }
+
+    function renderCart() {
+      const cart = Cart.all();
+      const view = document.getElementById('cart-view');
+
+      if (cart.length === 0) {
+        view.innerHTML = `<div class="cart-empty">Tu carrito está vacío.</div>`;
+        return;
+      }
+
+      const rows = cart.map(p => `
+        <tr>
+          <td>${p.title}</td>
+          <td class="text-right">${money(p.price)}</td>
+          <td><input class="qty-input" type="number" min="1" value="${p.qty}" data-id="${p.id}"></td>
+          <td class="text-right">${money(p.price * p.qty)}</td>
+          <td class="text-right"><button class="btn btn-outline btn-row" data-del="${p.id}">Eliminar</button></td>
+        </tr>
+      `).join('');
+
+      const { amount } = Cart.totals();
+
+      view.innerHTML = `
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Ticket</th>
+              <th class="text-right">Precio</th>
+              <th>Cantidad</th>
+              <th class="text-right">Subtotal</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+          <tfoot>
+            <tr class="cart-total">
+              <td colspan="3" class="text-right">Total</td>
+              <td class="text-right">${money(amount)}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      `;
+
+      // Eventos para cantidad y eliminar
+      view.querySelectorAll('.qty-input').forEach(inp => {
+        inp.addEventListener('change', e => {
+          const id = e.target.getAttribute('data-id');
+          const q  = parseInt(e.target.value, 10);
+          Cart.setQty(id, q);
+          renderCart();
+        });
+      });
+
+      view.querySelectorAll('[data-del]').forEach(btn => {
+        btn.addEventListener('click', e => {
+          const id = e.currentTarget.getAttribute('data-del');
+          Cart.remove(id);
+          renderCart();
+        });
+      });
+    }
+
+    document.getElementById('btn-clear').addEventListener('click', () => {
+      Cart.clear();
+      renderCart();
+    });
+
+    document.getElementById('btn-checkout').addEventListener('click', () => {
+      const { amount, items } = Cart.totals();
+      if (items === 0) return alert('Tu carrito está vacío.');
+      alert(`Procesar pago por ${items} ticket(s), total ${amount.toFixed(2)} USD`);
+    });
+
+    document.addEventListener('DOMContentLoaded', renderCart);
+  </script>
+</body>
+</html>

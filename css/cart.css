@@ -1,0 +1,136 @@
+/* Lienzo */
+body.cart-page {
+  background: #f6f8fb;
+}
+
+/* Contenedor centrado */
+.cart-shell {
+  max-width: 920px;
+  margin: 36px auto;
+  padding: 0 16px;
+}
+
+/* Tarjeta */
+.cart-card {
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid #e8edf5;
+  box-shadow: 0 12px 28px rgba(16,24,40,.06);
+  overflow: hidden;
+}
+
+/* Encabezado */
+.cart-header {
+  padding: 22px 24px;
+  text-align: center;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: .2px;
+}
+
+/* Tabla */
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+.cart-table th,
+.cart-table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #eef2f6;
+  vertical-align: middle;
+}
+.cart-table thead th {
+  background: #f5f7fe;
+  color: #1f2937;
+  font-weight: 700;
+}
+.cart-table tbody tr:nth-child(odd) td {
+  background: #fbfcff;
+}
+.cart-table tbody tr:hover td {
+  background: #f6f8ff;
+}
+
+.text-right { text-align: right; }
+
+/* Cantidad */
+.qty-input {
+  width: 88px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid #cfd8e3;
+  padding: 0 10px;
+  outline: none;
+  transition: .15s;
+  background: #fff;
+}
+.qty-input:focus {
+  border-color: #6b8cff;
+  box-shadow: 0 0 0 4px rgba(107,140,255,.18);
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 42px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: #1f64ff;
+  color: #fff;
+  cursor: pointer;
+  transition: filter .15s, transform .02s;
+  user-select: none;
+  white-space: nowrap;
+}
+.btn:hover { filter: brightness(1.05); }
+.btn:active { transform: translateY(1px); }
+
+.btn-outline {
+  background: #fff;
+  color: #0f172a;
+  border-color: #e4e9f2;
+}
+.btn-outline:hover { background: #f9fbff; }
+
+/* Botón de fila */
+.btn-row {
+  height: 36px;
+  padding: 0 14px;
+  font-size: 13px;
+  border-radius: 10px;
+}
+
+/* Total */
+.cart-total {
+  background: #f9fbff;
+  font-weight: 800;
+}
+
+/* Acciones */
+.cart-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding: 18px;
+  background: #fff;
+  border-top: 1px solid #eef2f6;
+}
+
+/* Estado vacío */
+.cart-empty {
+  padding: 30px;
+  text-align: center;
+  color: #475569;
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+  .cart-shell { margin: 20px auto; }
+  .cart-table th, .cart-table td { padding: 14px; }
+  .qty-input { width: 72px; }
+}

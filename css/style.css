@@ -103,7 +103,7 @@ body {
 
 
 #hero {
-    background-image: url('../img/hero.jpg');
+    background-image: url('../img/inicio.jpg');
     height: 90vh;
     width: 100%;
     background-size: cover;
@@ -287,7 +287,7 @@ button:hover {
     margin: 10px 0;
 }
 /* Registro */
-/* General reset for consistency */
+
 #cliente, #empresa {
     margin: 20px auto;
     text-align: center;
@@ -335,4 +335,41 @@ button:hover {
         padding: 12px 20px;
         font-size: 1rem;
     }
+}
+
+.footer-social {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.footer-social h4 {
+  color: var(--primary); /* cambia de blanco a color principal */
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-social ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-social li {
+  display: inline-block;
+}
+
+.footer-social a {
+  color: #fff; /* íconos blancos por defecto */
+  font-size: 22px;
+  transition: color 0.3s ease;
+}
+
+.footer-social a:hover {
+  color: var(--accent); /* se iluminan al pasar el mouse */
 }
