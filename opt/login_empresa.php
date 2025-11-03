@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $empresa = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($empresa && password_verify($password, $empresa['password'])) {
-                    if ($empresa['estado'] === 'activo') {
+                    if ($empresa['estado'] === 'aprobada') {
                         $_SESSION['empresa_id'] = $empresa['empresaId'];
                         $_SESSION['nombreEmpresa'] = $empresa['nombreEmpresa'];
                         $_SESSION['NIT'] = $empresa['NIT'];

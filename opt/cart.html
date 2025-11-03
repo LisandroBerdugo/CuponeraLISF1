@@ -39,6 +39,13 @@
       <div class="cart-actions">
         <button class="btn btn-outline" id="btn-clear">Vaciar</button>
         <button class="btn" id="btn-checkout">Pagar</button>
+
+          <script>
+            document.getElementById("btn-checkout").addEventListener("click", () => {
+              window.location.href = "../opt/checkout.html";
+            });
+          </script>
+
       </div>
     </div>
   </main>

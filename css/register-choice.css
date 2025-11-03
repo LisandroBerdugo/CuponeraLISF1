@@ -1,0 +1,180 @@
+:root {
+  --bg: #eaf4ff;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #667085;
+  --primary: #2563eb;
+  --primary-600: #1d4ed8;
+  --purple: #6046c7;
+  --shadow: 0 12px 30px rgba(2, 6, 23, .12);
+}
+
+/* === LAYOUT PRINCIPAL === */
+.register-choice {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  padding: 24px 16px 56px;
+}
+
+/* Contenedor general del carrusel */
+.register-choice .choice-container {
+  position: relative;
+  width: min(1024px, 92vw);
+  height: 380px;
+  margin: 0 auto;
+  border-radius: 18px;
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* === PANEL MORADO  === */
+.register-choice .bg-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  right: 0;
+  background: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: right .4s ease, left .4s ease;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.register-choice .bg-panel.right {
+  right: auto;
+  left: 0;
+}
+
+.register-choice .bg-panel img {
+  width: 80%;
+  height: auto;
+  object-fit: contain;
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+/* === PANEL DE TEXTO === */
+.register-choice .info-panel {
+  position: absolute;
+  top: 50%;
+  left: 6%;
+  transform: translateY(-50%);
+  width: 42%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  background: transparent;
+  box-shadow: none;
+  z-index: 2;
+  transition: left .35s ease, right .35s ease;
+}
+
+.register-choice .info-panel.right {
+  left: auto;
+  right: 6%;
+}
+
+/* === TIPOGRAFÍA  === */
+.register-choice .info-panel h2 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.register-choice .info-panel p {
+  margin: 0 0 10px 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #374151;
+  max-width: 36ch;
+}
+
+/* === BOTÓN PRINCIPAL === */
+.register-choice .btn-ingresar {
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background .2s ease, transform .06s ease;
+}
+
+.register-choice .btn-ingresar:hover {
+  background: var(--primary-600);
+}
+
+.register-choice .btn-ingresar:active {
+  transform: scale(.98);
+}
+
+/* === BOTONES INFERIORES === */
+.register-choice .choice-buttons {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.register-choice .btn-select {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: filter .15s ease, transform .06s ease;
+}
+
+.register-choice .btn-select:active {
+  transform: scale(.98);
+}
+
+.register-choice .btn-client {
+  background: #16a34a;
+}
+
+.register-choice .btn-company {
+  background: #1d4ed8;
+}
+
+.register-choice .btn-select:hover {
+  filter: brightness(.95);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .register-choice .choice-container {
+    height: 420px;
+  }
+
+  .register-choice .bg-panel {
+    width: 50%;
+  }
+
+  .register-choice .info-panel,
+  .register-choice .info-panel.right {
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
+    width: min(520px, 86%);
+  }
+
+  .register-choice .bg-panel img {
+    width: 70%;
+  }
+}

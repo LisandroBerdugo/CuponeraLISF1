@@ -3,10 +3,10 @@
 require_once __DIR__ . '/_guard_empresa.php';
 
 // Flags de sesión login actual
-$isLogged = isset($_SESSION['empresa_id']) && (($_SESSION['tipo_usuario'] ?? '') === 'empresa');
+$isLogged = isset($_SESSION['nombreEmpresa']) && (($_SESSION['tipo_usuario'] ?? '') === 'empresa');
 // Datos principales (empresa)
 $empresaId      = $_SESSION['empresa_id']     ?? null;
-$nombreEmpresa  = $_SESSION['nombreEmpresa']  ?? '';   // ej. se seteó en login_empresa.php
+$nombreEmpresa  = $_SESSION['nombreEmpresa']  ?? '';   
 $nit            = $_SESSION['NIT']            ?? '';
 $correoEmpresa  = $_SESSION['correo']         ?? '';
 $estadoEmpresa  = $_SESSION['estado']         ?? '';   // 'activo' | 'pendiente' | 'desactivo'
@@ -64,23 +64,24 @@ $correo = $_SESSION['correo'] ?? '';
         <li><a href="../opt/index.php">Inicio</a></li>
         <li><a href="../opt/shop.html">Tienda</a></li>
         <li><a href="../opt/contact.html">Contacto</a></li>
-        <li><a href="../opt/cart.html"><i class="fa fa-shopping-cart"></i></a></li>
         
-
+        
         <?php if ($isLogged): ?>
-          <!-- Mostrar Dashboard si hay sesión -->
-          <li><a class="active" href="panel_cliente.php"><i class="fa fa-user"></i> Dashboard</a></li>
-        <?php else: ?>
-          <!-- Si no hay sesión, icono de login -->
-          <li><a href="login_empresa.php"><i class="fa fa-user"></i></a></li>
-        <?php endif; ?>
-      </ul>
-    </div>
+                  <!-- Mostrar Dashboard si hay sesión -->
+                  <li><a class="active" href="dashboard_empresa.php"><i class="fa fa-user"></i> Dashboard</a></li>
+                <?php else: ?>
+                  <!-- Si no hay sesión, icono de login -->
+                  <li><a href="login_empresa.php"><i class="fa fa-user"></i><span>  Iniciar Sesión</span></a></li>
+                <?php endif; ?>
+              </ul>
+            </div>
   </section>
 
   <div class="panel-wrap">
     <div class="card">
-      <h2>Hola, <?= htmlspecialchars($nombreEmpresa ?: 'EmpresaID') ?></h2>
+      <h2>Hola, <?= htmlspecialchars($nombreEmpresa ?: 'nombreEmpresa') ?></h2>
+
+ 
       <?php if ($correo): ?>
         <p>Correo: <?= htmlspecialchars($correo) ?></p>
       <?php endif; ?>
@@ -98,7 +99,7 @@ $correo = $_SESSION['correo'] ?? '';
       <div class="grid">
         <div class="kpi"><h4>Cupones disponibles</h4><div>—</div></div>
         <div class="kpi"><h4>Ventas realizadas</h4><div>—</div></div>
-        <div class="kpi"><h4>Ingreso total</h4><div>$ —</div></div>
+        <div class="kpi"><h4>Ganancias Totales</h4><div>$ —</div></div>
       </div>
     </div>
   </div>

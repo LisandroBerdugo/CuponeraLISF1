@@ -1,87 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <link rel="stylesheet" href="../css/checkout.css">
 </head>
 <body>
-<div class="checkout-form">
+
+<form class="checkout-form" onsubmit="return false;">
   <h2>Compra de producto</h2>
-  <input type="text" id="fname" name="fname" placeholder="Nombre..">
-  <input type="text" id="lname" name="lname" placeholder="Apellido..">
-  <input type="text" id="email" name="email" placeholder="Email..">
-  <input type="text" id="phone" name="phone" placeholder="Telefono..">
-  <input type="text" id="address" name="address" placeholder="Direccion..">
-  <input type="text" id="card" name="card" placeholder="Tarjeta de credito..">
-  <input type="text" id="exp" name="exp" placeholder="Fecha de expiracion..">
-  <input type="text" id="cvv" name="cvv" placeholder="CVV..">
-  <select name="dropdown" id="dropdown">
-    <option value="Visa">Visa</option>
-    <option value="Mastercard">Mastercard</option>
-    <option value="American Express">American Express</option>
-  </select>
-  <br>
-  <button onclick="realizarPago()">Pagar</button>
-  <button onclick="cancelarCompra()">Cancelar</button>
 
-  <script>
-    function realizarPago() {
-      Swal.fire({
-        title: 'La transaccion ha sido realizada existosamente',
-        text: 'Desea imprimir comprobante?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Si',
-        cancelButtonText: 'No'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          generarComprobante();
-        }
-        localStorage.clear();
-        location.reload();
-        setTimeout(() => {
-          window.close();
-        }, 1000);
-      });
+  <div class="fields">
+    <input type="text" id="fname" name="fname" placeholder="Nombre" autocomplete="given-name" required>
+    <input type="text" id="lname" name="lname" placeholder="Apellido" autocomplete="family-name" required>
+
+    <input type="email" id="email" name="email" placeholder="Email" class="col-span-2" autocomplete="email" required>
+
+    <input type="tel" id="phone" name="phone" placeholder="Teléfono" autocomplete="tel" inputmode="tel" required>
+    <input type="text" id="address" name="address" placeholder="Dirección" autocomplete="address-line1" required>
+
+    <input type="text" id="card" name="card" placeholder="Tarjeta de crédito (16 dígitos)" class="col-span-2"
+           inputmode="numeric" pattern="\\d{13,19}" autocomplete="cc-number" required>
+
+    <div class="row-2 col-span-2">
+      <input type="text" id="exp" name="exp" placeholder="Expiración (MM/AA)"
+             inputmode="numeric" pattern="^(0[1-9]|1[0-2])\\/(\\d{2})$" autocomplete="cc-exp" required>
+      <input type="text" id="cvv" name="cvv" placeholder="CVV"
+             inputmode="numeric" pattern="\\d{3,4}" autocomplete="cc-csc" required>
+    </div>
+
+    <select name="brand" id="brand" class="col-span-2" required>
+      <option value="" disabled selected>Selecciona tarjeta</option>
+      <option value="Visa">Visa</option>
+      <option value="Mastercard">Mastercard</option>
+      <option value="American Express">American Express</option>
+    </select>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="btn btn-primary" id="btn-checkout" onclick="realizarPago()">Pagar</button>
+    <button type="button" class="btn btn-secondary" onclick="cancelarCompra()">Cancelar</button>
+  </div>
+</form>
+
+<script>
+  function realizarPago() {
+    const requiredIds = ["fname","lname","email","phone","address","card","exp","cvv","brand"];
+    for (const id of requiredIds) {
+      const el = document.getElementById(id);
+      if (!el.checkValidity()) {
+        el.reportValidity();
+        return;
+      }
     }
 
-    function generarComprobante() {
-      const { jsPDF } = window.jspdf;
+    Swal.fire({
+      title: 'Transacción realizada',
+      text: '¿Deseas imprimir el comprobante?',
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) generarComprobante();
 
-      let doc = new jsPDF();
-      let carrito = JSON.parse(localStorage.getItem('cart')) || [];
-      let posicionY = 20;
+      localStorage.clear();
+      setTimeout(() => {
+        window.location.href = '../opt/shop.html';
+      }, 600);
+    });
+  }
 
-      carrito.forEach((item, index) => {
-        doc.text(`Item ${index + 1}: ${item.title}`, 20, posicionY);
-        doc.text(`Detalle: ${item.description}`, 20, posicionY + 10);
-        doc.text(`Precio: ${item.price}`, 20, posicionY + 20);
-        doc.text(`Descuento: ${item.discount}`, 20, posicionY + 30);
-        doc.text(`Cantidad: ${item.quantity}`, 20, posicionY + 40);
-        posicionY += 50;
-      });
+  function generarComprobante() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
 
-      doc.save('receipt.pdf');
-    }
+    const carrito = JSON.parse(localStorage.getItem('cart')) || [];
+    let y = 20;
 
-    function cancelarCompra() {
-      Swal.fire({
-        title: 'La transaccion ha sido cancelada',
-        text: 'Desea volver a la tienda?',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Si',
-        cancelButtonText: 'No'
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = '../opt/shop.html';
-        }
-      });
-    }
-  </script>
-</div>
+    doc.setFont('helvetica', 'bold');
+    doc.text('Comprobante de compra', 20, y);
+    y += 10;
+
+    doc.setFont('helvetica', 'normal');
+
+    carrito.forEach((item, i) => {
+      doc.text(`Item ${i + 1}: ${item.title || ''}`, 20, y);        y += 7;
+      doc.text(`Detalle: ${item.description || ''}`, 20, y);        y += 7;
+      doc.text(`Precio: ${item.price || ''}`, 20, y);               y += 7;
+      doc.text(`Descuento: ${item.discount || ''}`, 20, y);         y += 7;
+      doc.text(`Cantidad: ${item.quantity || 1}`, 20, y);           y += 10;
+
+      if (y > 270) { doc.addPage(); y = 20; }
+    });
+
+    doc.save('receipt.pdf');
+  }
+
+  function cancelarCompra() {
+    Swal.fire({
+      title: 'Compra cancelada',
+      text: '¿Deseas volver a la tienda?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí',
+      cancelButtonText: 'No'
+    }).then((res) => {
+      if (res.isConfirmed) window.location.href = '../opt/shop.html';
+    });
+  }
+</script>
+
 </body>
 </html>
