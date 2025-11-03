@@ -46,7 +46,7 @@ CREATE TABLE clientes (
   adminId INT NOT NULL,
   contactoId INT NOT NULL,
   FechaCreado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  estado ENUM('pendiente','activo','Desactivo') NOT NULL,
+  estado ENUM('pendiente','activo','desactivo') NOT NULL DEFAULT 'activo',
   nombre VARCHAR(50) NOT NULL,
   apellido VARCHAR(50) NOT NULL,
   nacimiento DATE NOT NULL,
