@@ -18,6 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($nombreEmpresa)) $errors[] = "El nombre de la empresa es obligatorio.";
     if (empty($NIT)) $errors[] = "El NIT es obligatorio.";
+     if (!empty($NIT) && !preg_match('/^\d{4}-\d{6}-\d{3}-\d$/', $NIT)) {
+         $errors[] = "El NIT debe tener el formato 0000-000000-000-0.";}
     if (empty($correo) || !filter_var($correo, FILTER_VALIDATE_EMAIL)) $errors[] = "El correo no es válido.";
     if (empty($usuario)) $errors[] = "El usuario es obligatorio.";
     if (empty($password)) $errors[] = "La contraseña es obligatoria.";
@@ -107,8 +109,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="form-group">
                 <label for="NIT">NIT *</label>
-                <input type="text" id="NIT" name="NIT" placeholder="Ej: 0614-120798-001-3"
-                       value="<?php echo isset($_POST['NIT']) ? htmlspecialchars($_POST['NIT']) : ''; ?>" required>
+                <input type="text" id="NIT" name="NIT" required placeholder="Ej: 0000-000000-000-0"
+                       pattern="\d{4}-\d{6}-\d{3}-\d" maxlength="17"
+                       value="<?php echo isset($_POST['NIT']) ? htmlspecialchars($_POST['NIT']) : ''; ?>" required
+                       oninput="let v = this.value.replace(/\D/g,'').slice(0,14);
+                                   if (v.length > 12) this.value = v.slice(0,4)+'-'+v.slice(4,10)+'-'+v.slice(10,13)+'-'+v.slice(13);
+                                else if (v.length > 9) this.value = v.slice(0,4)+'-'+v.slice(4,10)+'-'+v.slice(10);
+                                else if (v.length > 4) this.value = v.slice(0,4)+'-'+v.slice(4);
+                                else this.value = v;">
             </div>
 
             <div class="form-group">
