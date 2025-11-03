@@ -26,33 +26,39 @@ $isLogged = isset($_SESSION['cliente_id']) && (($_SESSION['tipo_usuario'] ?? '')
       <img src="../img/logo.jpg" class="logo" alt="Logo">
     </a>
     <div>
-      <ul id="navbar">
-        <li><a class="active" href="../opt/index.php">Inicio</a></li>
-        <li><a href="../opt/shop.html">Tienda</a></li>
-        <li><a href="../opt/contact.html">Contacto</a></li>
-        <li>
-          <a href="../opt/cart.html" title="Carrito">
-            <i class="fa fa-shopping-cart"></i>
-            <span id="cart-plus-sign"></span>
-          </a>
-        </li>
+        <ul id="navbar">
+          <li><a class="active" href="../opt/index.php">Inicio</a></li>
+          <li><a href="../opt/shop.html">Tienda</a></li>
+          <li><a href="../opt/contact.html">Contacto</a></li>
+          <li>
+            <a href="../opt/cart.html" title="Carrito">
+              <span id="cart-plus-sign"></span>
+            </a>
+          </li>
 
-        <?php if ($isLogged): ?>
-          <!-- Si hay sesión, muestra Dashboard -->
-          <li>
-            <a href="../opt/dashboard_cliente.php">
-              <i class="fa fa-user"></i> Dashboard
-            </a>
-          </li>
-        <?php else: ?>
-          <!-- Sin sesión, muestra icono de login -->
-          <li>
-            <a href="../opt/login_cliente.php" title="Iniciar sesión">
-              <i class="fa fa-user"></i>
-            </a>
-          </li>
-        <?php endif; ?>
-      </ul>
+          <?php if (!empty($isLogged) && $isLogged === true): ?>
+            <!-- Si hay sesión iniciada, muestra el Dashboard -->
+            <li>
+              <a href="../opt/dashboard_cliente.php" title="Dashboard">
+                <i class="fa fa-user"></i> Dashboard
+              </a>
+            </li>
+          <?php else: ?>
+            <!-- Si no hay sesión, muestra opciones de login y registro -->
+            <li>
+              <a href="../opt/login_cliente.php" title="Iniciar sesión">
+                <i class="fa fa-user"></i> Iniciar sesión
+              </a>
+            </li>
+            <li>
+              <a href="../opt/registry.html" title="Registrarse">
+                <i class="fa fa-user-plus"></i> Registrarse
+              </a>
+            </li>
+          <?php endif; ?>
+        </ul>
+
+
     </div>
   </section>
 
@@ -74,7 +80,7 @@ $isLogged = isset($_SESSION['cliente_id']) && (($_SESSION['tipo_usuario'] ?? '')
     <div style="margin-top:10px;">
       <a href="#" style="color:#fff; margin:0 10px;"><i class="fab fa-facebook"></i></a>
       <a href="#" style="color:#fff; margin:0 10px;"><i class="fab fa-twitter"></i></a>
-      <a href="#" style="color:#fff; margin:0 10px;"><i class="fab fa-instagram"></i></a>
+      <a href="#" style="color:#fff; margin:0 10px;"><i class="fab fa-instagram">/i></a>
     </div>
   </footer>
 

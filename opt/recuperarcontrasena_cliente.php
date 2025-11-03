@@ -53,13 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Recuperar Contraseña</title>
+    <title>Recuperar Contraseña - Cliente</title>
     <link rel="stylesheet" href="../css/login-choice.css">
 </head>
 <body class="registro-page">
 <div class="registro-container">
     <div class="registro-header">
-        <h2>Recuperar Contraseña</h2>
+        <h2>Recuperar Contraseña - Cliente</h2>
         <p>Ingresa tu correo electrónico para recuperar tu cuenta</p>
     </div>
 

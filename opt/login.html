@@ -1,89 +1,132 @@
 <!DOCTYPE html>
 <html lang="es" ng-app="shopApp">
 <head>
-    <meta charset="UTF-8">
-    <title>Tienda de Tickets</title>
+  <meta charset="UTF-8" />
+  <title>Tienda de Tickets</title>
 
-    <!-- CSS Globales -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/about.css">
-    <link rel="stylesheet" href="../css/login-choice.css">
+  <!-- CSS Globales -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/about.css" />
+  <!-- Carrusel 3 posiciones -->
+  <link rel="stylesheet" href="../css/login.css?v=5" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-    <script src="https://kit.fontawesome.com/489b0ad0ad.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="../updateCartIcon.js"></script>
+  <!-- Librerías -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js" defer></script>
+  <script src="https://kit.fontawesome.com/489b0ad0ad.js" crossorigin="anonymous" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
+  <script src="../updateCartIcon.js" defer></script>
 </head>
 <body ng-controller="shopController">
 
-    <!-- NAVBAR -->
-    <section id="header">
-        <a href="#"><img src="../img/logo.jpg" class="logo" alt="Logo"></a>
-        <div>
-            <ul id="navbar">
-                <li><a href="../opt/index.php">Inicio</a></li>
-                <li><a href="../opt/shop.html">Tienda</a></li>
-                <li><a href="../opt/contact.html">Contacto</a></li>
-                <li><a  href="../opt/registry.html">Regístrate</a></li>
-        
-                <li><a class="active" href="../opt/login.html"><i class="fa fa-user "></i><span> Inicia Sesión</span></a></li>
+  <!-- NAVBAR -->
+  <section id="header">
+    <a href="../opt/index.php"><img src="../img/logo.jpg" class="logo" alt="Logo" /></a>
+    <div>
+      <ul id="navbar">
+        <li><a href="../opt/index.php">Inicio</a></li>
+        <li><a href="../opt/shop.html">Tienda</a></li>
+        <li><a href="../opt/contact.html">Contacto</a></li>
+        <li><a href="../opt/registry.html">Regístrate</a></li>
+        <li>
+          <a class="active" href="../opt/login.html">
+            <i class="fa fa-user"></i><span> Inicia Sesión</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
 
-              
-            </ul>
-        </div>
-    </section>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="login-choice">
+    <div class="choice-container">
+      <!-- Fondo (debajo) -->
+      <div class="bg-panel"></div>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <main class="login-choice">
-        <div class="choice-container">
-            <!-- Panel de información -->
-            <div class="info-panel" id="infoPanel">
-                <h2 id="panelTitle">Bienvenido Cliente</h2>
-                <p id="panelText">Accede a tus compras, promociones y eventos personalizados.</p>
-                <button id="loginBtn" class="btn-ingresar">Ingresar</button>
-            </div>
+      <!-- Panel (encima) -->
+      <div class="info-panel pos-0" id="infoPanel">
+        <h2 id="panelTitle">Bienvenido Cliente</h2>
+        <p id="panelText">Accede a tus compras, promociones y eventos personalizados.</p>
+        <button id="loginBtn" class="btn-ingresar" type="button">Ingresar</button>
+      </div>
+    </div>
 
-            <!-- Fondo -->
-            <div class="bg-panel"></div>
-        </div>
+    <!-- Botones -->
+    <div class="choice-buttons">
+      <button class="btn-select btn-client" id="btnCliente" type="button">
+        Inicio de Sesión Cliente
+      </button>
+      <button class="btn-select btn-company" id="btnEmpresa" type="button">
+        Inicio de Sesión Empresa
+      </button>
+      <button class="btn-select btn-admin" id="btnAdmin" type="button">
+        <i class="fa-solid fa-shield-halved"></i> Inicio de Sesión Administrador
+      </button>
+    </div>
+  </main>
 
-        <!-- Botones -->
-        <div class="choice-buttons">
-            <button class="btn-select btn-client" id="btnCliente">Inicio de Sesión Cliente</button>
-            <button class="btn-select btn-company" id="btnEmpresa">Inicio de Sesión Empresa</button>
-        </div>
-    </main>
-
-    <!-- SCRIPT -->
-    <script>
+  <!-- SCRIPT -->
+  <script>
+    // Referencias
     const infoPanel = document.getElementById('infoPanel');
-    const title = document.getElementById('panelTitle');
-    const text = document.getElementById('panelText');
-    const loginBtn = document.getElementById('loginBtn');
-    const btnCliente = document.getElementById('btnCliente');
-    const btnEmpresa = document.getElementById('btnEmpresa');
+    const title     = document.getElementById('panelTitle');
+    const text      = document.getElementById('panelText');
+    const loginBtn  = document.getElementById('loginBtn');
+    const btnCliente= document.getElementById('btnCliente');
+    const btnEmpresa= document.getElementById('btnEmpresa');
+    const btnAdmin  = document.getElementById('btnAdmin');
 
-    // Estado inicial "vista de Cliente activa"
-    infoPanel.classList.remove('right');
+    // Botón activo visualmente
+    const setActiveButton = (btn) => {
+      [btnCliente, btnEmpresa, btnAdmin].forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+    };
+
+    // Pequeño fade al cambiar texto
+    const swapText = (newTitle, newText) => {
+      infoPanel.classList.add('swap'); // (la clase .swap la usa el CSS para el fade)
+      setTimeout(() => {
+        title.textContent = newTitle;
+        text.textContent  = newText;
+        infoPanel.classList.remove('swap');
+      }, 120);
+    };
+
+    // Mover panel a una de las 3 posiciones
+    const setPos = (pos) => {
+      infoPanel.classList.remove('pos-0','pos-1','pos-2');
+      infoPanel.classList.add(pos);
+    };
+
+    // Estado inicial: Cliente
+    setPos('pos-0');
+    setActiveButton(btnCliente);
     title.textContent = 'Bienvenido Cliente';
-    text.textContent = 'Accede a tus compras, promociones y eventos personalizados.';
-    loginBtn.onclick = () => location.href = 'login_cliente.php';
+    text.textContent  = 'Accede a tus compras, promociones y eventos personalizados.';
+    loginBtn.onclick  = () => location.href = 'login_cliente.php';
 
-    // Cambiar a vista de Cliente
+    // Cliente
     btnCliente.addEventListener('click', () => {
-        infoPanel.classList.remove('right');
-        title.textContent = 'Bienvenido Cliente';
-        text.textContent = 'Accede a tus compras, promociones y eventos personalizados.';
-        loginBtn.onclick = () => location.href = 'login_cliente.php';
+      setPos('pos-0');
+      setActiveButton(btnCliente);
+      swapText('Bienvenido Cliente', 'Accede a tus compras, promociones y eventos personalizados.');
+      loginBtn.onclick = () => location.href = 'login_cliente.php';
     });
 
-    // Cambiar a vista de Empresa
+    // Empresa
     btnEmpresa.addEventListener('click', () => {
-        infoPanel.classList.add('right');
-        title.textContent = 'Bienvenido Empresa';
-        text.textContent = 'Administra tus campañas, analiza ventas y gestiona tus clientes.';
-        loginBtn.onclick = () => location.href = 'login_empresa.php';
+      setPos('pos-1');
+      setActiveButton(btnEmpresa);
+      swapText('Bienvenido Empresa', 'Administra tus campañas, analiza ventas y gestiona tus clientes.');
+      loginBtn.onclick = () => location.href = 'login_empresa.php';
     });
-</script>
+
+    // Administrador
+    btnAdmin.addEventListener('click', () => {
+      setPos('pos-2');
+      setActiveButton(btnAdmin);
+      swapText('Bienvenido Administrador', 'Gestiona aprobaciones, reportes y usuarios del sistema.');
+      loginBtn.onclick = () => location.href = 'login_admin.php';
+    });
+  </script>
 </body>
 </html>
