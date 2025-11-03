@@ -9,6 +9,13 @@
     .shop-wrap{max-width:1100px;margin:30px auto;padding:0 16px;}
     .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));}
     .card{background:#fff;border:1px solid #eee;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.06);padding:16px;display:flex;flex-direction:column;gap:10px}
+    .thumb{
+      width:100%;
+      aspect-ratio: 16/9;
+      object-fit:cover;
+      border-radius:10px;
+      background:#f3f4f6;
+    }
     .card h3{margin:0;font-size:18px}
     .price{font-weight:700}
     .badge{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:999px;padding:4px 10px;font-size:12px}
@@ -28,9 +35,6 @@
         <li><a href="../opt/login.html">
             <i class="fa-solid fa-right-from-bracket"></i>
             <span>Cerrar sesión</span></a></li>
-
-
-         
       </ul>
     </div>
   </section>
@@ -48,25 +52,30 @@
 
   <script src="../js/cart.js"></script>
   <script>
+    
+    const PLACEHOLDER = '../img/placeholder-ticket.jpg'; 
     const TICKETS = [
-      { id: 'TCK10', title: 'Ticket -10% en Tienda A', price: 2.50, tag: '10% OFF' },
-      { id: 'TCK15', title: 'Ticket -15% en Restaurante B', price: 3.00, tag: '15% OFF' },
-      { id: 'TCK20', title: 'Ticket -20% en Tech Store', price: 3.50, tag: '20% OFF' },
-      { id: 'TCK25', title: 'Ticket -25% en Moda C', price: 4.00, tag: '25% OFF' },
-      { id: 'TCKBOGO', title: 'Ticket 2x1 en Café D', price: 3.00, tag: '2x1' },
-      { id: 'TCKSHIP', title: 'Ticket Envío Gratis', price: 1.50, tag: 'ENVÍO' }
+      { id: 'TCK10',   title: 'Ticket -10% en Tienda A',      price: 2.50, tag: '10% OFF', img: '../img/tickets/tienda.jpg' },
+      { id: 'TCK15',   title: 'Ticket -15% en Restaurante B', price: 3.00, tag: '15% OFF', img: '../img/tickets/restaurante.jpg' },
+      { id: 'TCK20',   title: 'Ticket -20% en Tech Store',    price: 3.50, tag: '20% OFF', img: '../img/tickets/techstore.jpg' },
+      { id: 'TCK25',   title: 'Ticket -25% en Moda C',        price: 4.00, tag: '25% OFF', img: '../img/tickets/moda.jpg' },
+      { id: 'TCKBOGO', title: 'Ticket 2x1 en Café D',         price: 3.00, tag: '2x1',     img: '../img/tickets/cafe.jpg' },
+      { id: 'TCKSHIP', title: 'Ticket Envío Gratis',          price: 1.50, tag: 'Envio GRATIS',   img: '../img/tickets/envio.jpg' }
     ];
 
     function renderProducts() {
       const wrap = document.getElementById('products');
       wrap.innerHTML = TICKETS.map(p => `
         <article class="card">
+          <img class="thumb" src="${p.img || PLACEHOLDER}" alt="${p.title}" loading="lazy"
+               onerror="this.onerror=null;this.src='${PLACEHOLDER}'">
           <span class="badge">${p.tag}</span>
           <h3>${p.title}</h3>
           <div class="price">$${p.price.toFixed(2)}</div>
           <button class="btn" data-id="${p.id}">Agregar al carrito</button>
         </article>
       `).join('');
+
       wrap.querySelectorAll('.btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = e.currentTarget.getAttribute('data-id');
