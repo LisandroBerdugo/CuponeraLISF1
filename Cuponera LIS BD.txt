@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 --
 DROP DATABASE IF EXISTS cuponera;
 CREATE DATABASE cuponera CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE cuponera;
+USE cuponera;
 
 -- --------------------------------------------------------
 
