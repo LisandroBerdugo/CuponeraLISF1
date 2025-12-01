@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-12-2025 a las 07:06:28
+-- Tiempo de generación: 01-12-2025 a las 07:22:00
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -33,6 +33,7 @@ CREATE TABLE `admincuentas` (
   `FechaCreado` timestamp NOT NULL DEFAULT current_timestamp(),
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
+  `dui` varchar(10) NOT NULL,
   `correo` varchar(100) NOT NULL,
   `telefono` varchar(20) DEFAULT NULL,
   `usuario` varchar(25) NOT NULL,
@@ -43,8 +44,8 @@ CREATE TABLE `admincuentas` (
 -- Volcado de datos para la tabla `admincuentas`
 --
 
-INSERT INTO `admincuentas` (`adminId`, `nivel`, `FechaCreado`, `nombre`, `apellido`, `correo`, `telefono`, `usuario`, `contraseña`) VALUES
-(1, 'administrador', '2025-05-04 12:56:18', 'Master', 'Admin', 'webmaster@tickets.sv', '503555252', 'admin', '$2y$10$G1KLceMeN95L8eDYUxjUSuXEugHIPN9emmgDUiBRcUW8Cragg7cI2');
+INSERT INTO `admincuentas` (`adminId`, `nivel`, `FechaCreado`, `nombre`, `apellido`, `dui`, `correo`, `telefono`, `usuario`, `contraseña`) VALUES
+(1, 'administrador', '2025-05-04 12:56:18', 'Master', 'Admin', '', 'webmaster@tickets.sv', '503555252', 'admin', '$2y$10$G1KLceMeN95L8eDYUxjUSuXEugHIPN9emmgDUiBRcUW8Cragg7cI2');
 
 -- --------------------------------------------------------
 
@@ -60,6 +61,7 @@ CREATE TABLE `clientes` (
   `estado` enum('pendiente','activo','Desactivo') NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
+  `dui` varchar(10) NOT NULL,
   `nacimiento` date NOT NULL,
   `correo` varchar(100) NOT NULL,
   `usuario` varchar(25) NOT NULL,
@@ -70,8 +72,8 @@ CREATE TABLE `clientes` (
 -- Volcado de datos para la tabla `clientes`
 --
 
-INSERT INTO `clientes` (`clienteId`, `adminId`, `contactoId`, `FechaCreado`, `estado`, `nombre`, `apellido`, `nacimiento`, `correo`, `usuario`, `contraseña`) VALUES
-(2, 1, 2, '2025-05-04 12:56:41', 'activo', 'Fatima Yesenia', 'Oviedo', '1982-05-20', 'foviedo@udb.com.sv', 'dorellana', '$2y$10$G1KLceMeN95L8eDYUxjUSuXEugHIPN9emmgDUiBRcUW8Cragg7cI2');
+INSERT INTO `clientes` (`clienteId`, `adminId`, `contactoId`, `FechaCreado`, `estado`, `nombre`, `apellido`, `dui`, `nacimiento`, `correo`, `usuario`, `contraseña`) VALUES
+(2, 1, 2, '2025-05-04 12:56:41', 'activo', 'Fatima Yesenia', 'Oviedo', '', '1982-05-20', 'foviedo@udb.com.sv', 'dorellana', '$2y$10$G1KLceMeN95L8eDYUxjUSuXEugHIPN9emmgDUiBRcUW8Cragg7cI2');
 
 -- --------------------------------------------------------
 
@@ -252,7 +254,8 @@ CREATE TABLE `transacciones` (
 ALTER TABLE `admincuentas`
   ADD PRIMARY KEY (`adminId`),
   ADD UNIQUE KEY `correo` (`correo`),
-  ADD UNIQUE KEY `usuario` (`usuario`);
+  ADD UNIQUE KEY `usuario` (`usuario`),
+  ADD UNIQUE KEY `dui` (`dui`);
 
 --
 -- Indices de la tabla `clientes`
@@ -261,6 +264,7 @@ ALTER TABLE `clientes`
   ADD PRIMARY KEY (`clienteId`),
   ADD UNIQUE KEY `correo` (`correo`),
   ADD UNIQUE KEY `usuario` (`usuario`),
+  ADD UNIQUE KEY `dui` (`dui`),
   ADD KEY `adminId` (`adminId`),
   ADD KEY `contactoId` (`contactoId`);
 
