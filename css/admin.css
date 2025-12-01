@@ -1,0 +1,271 @@
+/* =========================================================
+   ADMIN PANEL 
+   ========================================================= */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #f6f7fb;
+    color: #1f2937;
+}
+
+/* =========================================================
+   HEADER SUPERIOR (MENÚ PRINCIPAL)
+   ========================================================= */
+.admin-header {
+    max-width: 1300px;
+     margin: 40px auto;
+    background: #ffffff;
+    padding: 10px 30px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.admin-header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-logo-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-logo {
+    height: 60px;
+}
+
+/* NAV MENU */
+.admin-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-nav-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 14px;
+    gap: 8px;
+    font-size: 15px;
+    color: #374151;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.2s ease;
+}
+
+.admin-nav-link:hover {
+    background: #f3f4f6;
+}
+
+/* ACTIVO EN MORADO  */
+.admin-nav-link.active {
+    color: #6d28d9;
+    font-weight: 600;
+    background: #ede9fe;
+}
+
+/* Botón Registrar Admin negro */
+.admin-nav-link[style*="background:black"] {
+    background: #000 !important;
+    color: white !important;
+}
+
+/* BOTÓN SALIR */
+.logout-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 15px;
+}
+.logout-btn:hover {
+    background: #dc2626;
+}
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================= */
+.admin-container {
+    max-width: 1300px;
+    text-align: center;
+    margin: 40px auto;
+    padding: 0 20px;
+   
+}
+
+/* =========================================================
+   TABS ESTILO PILL 
+   ========================================================= */
+.pill-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.pill-tab {
+    padding: 10px 20px;
+    background: #ffffff;
+    border-radius: 30px;
+    font-size: 15px;
+    text-decoration: none;
+    color: #374151;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    border: 1px solid #e5e7eb;
+    transition: 0.25s ease;
+}
+
+.pill-tab:hover {
+    background: #f3f4f6;
+}
+
+.pill-tab--active {
+    background: #ede9fe;
+    color: #6d28d9;
+    font-weight: 600;
+    border-color: #c4b5fd;
+}
+
+/* =========================================================
+   CARD PRINCIPAL
+   ========================================================= */
+.card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.page-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.page-desc {
+    font-size: 15px;
+    color: #6b7280;
+    margin-bottom: 25px;
+}
+
+/* =========================================================
+   TABLAS
+   ========================================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+thead th {
+    background: #f9fafb;
+    color: #374151;
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+       text-align: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #f1f1f1;
+       text-align: center;
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    text-align: center;
+       background: #fafafa;
+}
+
+/* =========================================================
+   INPUTS & BOTONES
+   ========================================================= */
+.input-number,
+.input-text {
+    width: 120px;
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+}
+
+.btn {
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    font-size: 14px;
+    color: white;
+}
+
+.btn-approve {
+    background: #10b981;
+}
+.btn-approve:hover {
+    background: #059669;
+}
+
+.btn-reject {
+    background: #ef4444;
+}
+.btn-reject:hover {
+    background: #dc2626;
+}
+
+/* =========================================================
+  FOOTER SOCIAL
+   ========================================================= */
+.footer-social {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.footer-social h4 {
+  color: var(--primary); /* cambia de blanco a color principal */
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.footer-social ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.footer-social li {
+  display: inline-block;
+}
+
+.footer-social a {
+  color: #fff; /* íconos blancos por defecto */
+  font-size: 22px;
+  transition: color 0.3s ease;
+}
+
+.footer-social a:hover {
+  color: var(--accent); /* se iluminan al pasar el mouse */
+}

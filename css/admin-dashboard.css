@@ -1,0 +1,193 @@
+/* ======================= */
+/* DASHBOARD UI PRO EDITION */
+/* ======================= */
+
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4338ca;
+    --primary-light: #eef2ff;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --text-dark: #1f2937;
+    --text-soft: #6b7280;
+    --panel: #ffffff;
+    --radius: 22px;
+}
+
+/* Fondo general */
+body {
+    background: linear-gradient(135deg, #f8faff, #eef2ff);
+}
+
+/* ======================= */
+/* TARJETA DEL PANEL SUPERIOR */
+/* ======================= */
+
+.dashboard-card {
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 34px;
+    margin-bottom: 40px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.07);
+}
+
+/* Título principal */
+.dashboard-title {
+    font-size: 34px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    color: var(--text-dark);
+}
+
+/* Subtítulo del dashboard */
+.dashboard-sub {
+    font-size: 15px;
+    margin-bottom: 30px;
+    color: var(--text-soft);
+}
+
+/* ======================= */
+/* KPI CARDS */
+/* ======================= */
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.kpi-box {
+    background: var(--panel);
+    padding: 26px 20px;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: 1px solid #eef0f8;
+    box-shadow: 0 12px 25px rgba(99,102,241,0.09);
+    transition: .25s ease;
+}
+
+.kpi-box:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(99,102,241,0.15);
+}
+
+/* Icono grande */
+.kpi-icon {
+    font-size: 40px;
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+/* Título KPI */
+.kpi-label {
+    font-size: 14px;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    font-weight: 700;
+}
+
+.kpi-value {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--text-dark);
+    margin-top: 4px;
+}
+
+/* ======================= */
+/* REPORTES - TÍTULO */
+/* ======================= */
+
+.section-title {
+    font-size: 26px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+}
+
+.section-sub {
+    font-size: 14px;
+    color: var(--text-soft);
+    margin-bottom: 18px;
+}
+
+/* Caja del monto total */
+.total-global-box {
+    background: var(--primary-light);
+    padding: 16px 22px;
+    border-radius: 14px;
+    border-left: 6px solid var(--primary);
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--primary-dark);
+}
+
+/* ======================= */
+/* TABLA PREMIUM */
+/* ======================= */
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 20px;
+    overflow: hidden;
+    font-size: 15px;
+    text-align: center;
+}
+
+.report-table thead {
+    background: var(--primary);
+    color: white;
+}
+
+.report-table th {
+    padding: 14px 10px;
+    font-size: 13px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.report-table tbody tr {
+    background: #ffffff;
+    transition: .2s;
+}
+
+.report-table tbody tr:hover {
+    background: #f3f4ff;
+}
+
+.report-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eaeaf5;
+}
+
+/* ======================= */
+/* PROGRESS BAR PARA VENTAS */
+/* ======================= */
+
+.progress-bar {
+    width: 70%;
+    height: 8px;
+    background: #eef0ff;
+    border-radius: 10px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: var(--success);
+    transition: width .4s ease;
+}
+
+/* Si empresa no tiene ventas */
+.progress-fill.zero {
+    background: #cbd5e1;
+}
