@@ -1,0 +1,423 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 01-12-2025 a las 07:06:28
+-- Versión del servidor: 10.4.32-MariaDB
+-- Versión de PHP: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `cuponera`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `admincuentas`
+--
+
+CREATE TABLE `admincuentas` (
+  `adminId` int(11) NOT NULL,
+  `nivel` enum('administrador','gerente','ventas','web') NOT NULL,
+  `FechaCreado` timestamp NOT NULL DEFAULT current_timestamp(),
+  `nombre` varchar(50) NOT NULL,
+  `apellido` varchar(50) NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `usuario` varchar(25) NOT NULL,
+  `contraseña` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `admincuentas`
+--
+
+INSERT INTO `admincuentas` (`adminId`, `nivel`, `FechaCreado`, `nombre`, `apellido`, `correo`, `telefono`, `usuario`, `contraseña`) VALUES
+(1, 'administrador', '2025-05-04 12:56:18', 'Master', 'Admin', 'webmaster@tickets.sv', '503555252', 'admin', '$2y$10$G1KLceMeN95L8eDYUxjUSuXEugHIPN9emmgDUiBRcUW8Cragg7cI2');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clientes`
+--
+
+CREATE TABLE `clientes` (
+  `clienteId` int(11) NOT NULL,
+  `adminId` int(11) NOT NULL,
+  `contactoId` int(11) NOT NULL,
+  `FechaCreado` timestamp NOT NULL DEFAULT current_timestamp(),
+  `estado` enum('pendiente','activo','Desactivo') NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `apellido` varchar(50) NOT NULL,
+  `nacimiento` date NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `usuario` varchar(25) NOT NULL,
+  `contraseña` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`clienteId`, `adminId`, `contactoId`, `FechaCreado`, `estado`, `nombre`, `apellido`, `nacimiento`, `correo`, `usuario`, `contraseña`) VALUES
+(2, 1, 2, '2025-05-04 12:56:41', 'activo', 'Fatima Yesenia', 'Oviedo', '1982-05-20', 'foviedo@udb.com.sv', 'dorellana', '$2y$10$G1KLceMeN95L8eDYUxjUSuXEugHIPN9emmgDUiBRcUW8Cragg7cI2');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contactos`
+--
+
+CREATE TABLE `contactos` (
+  `contactoId` int(11) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `calle` varchar(255) NOT NULL,
+  `ciudad` varchar(100) NOT NULL,
+  `puntoRef` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `contactos`
+--
+
+INSERT INTO `contactos` (`contactoId`, `telefono`, `calle`, `ciudad`, `puntoRef`) VALUES
+(2, '4036696517', '200 El milagro', 'San Salvador', 'Palo de Mango'),
+(3, '5035323232', '235 Ilopango', 'Soyapango', NULL),
+(4, '789635', '4DFSLMJHF', 'SWJIUAE', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `cupones`
+--
+
+CREATE TABLE `cupones` (
+  `cuponId` int(11) NOT NULL,
+  `empresaId` int(11) NOT NULL,
+  `estado` enum('activo','Desactivo') NOT NULL,
+  `FechaCreado` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Actualizar` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `FechaInicio` date NOT NULL,
+  `FechaFin` date NOT NULL,
+  `nombreCupon` varchar(100) NOT NULL,
+  `CodigoCupon` varchar(50) DEFAULT NULL,
+  `descripcion` text NOT NULL,
+  `totalDisp` int(11) NOT NULL,
+  `maximo` int(11) NOT NULL,
+  `precioRegular` decimal(10,2) NOT NULL,
+  `precioPromocion` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empresas`
+--
+
+CREATE TABLE `empresas` (
+  `empresaId` int(11) NOT NULL,
+  `adminId` int(11) NOT NULL,
+  `fechaCreado` timestamp NOT NULL DEFAULT current_timestamp(),
+  `nombreEmpresa` varchar(100) NOT NULL,
+  `NIT` varchar(20) NOT NULL,
+  `contactoId` int(11) NOT NULL,
+  `estado` enum('pendiente','aprobada','rechazada') NOT NULL DEFAULT 'pendiente',
+  `comision` decimal(5,2) DEFAULT NULL,
+  `aprobado_por` int(11) DEFAULT NULL,
+  `aprobado_en` datetime DEFAULT NULL,
+  `rechazado_por` int(11) DEFAULT NULL,
+  `rechazado_en` datetime DEFAULT NULL,
+  `motivo_rechazo` varchar(255) DEFAULT NULL,
+  `correo` varchar(25) NOT NULL,
+  `usuario` varchar(25) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `empresas`
+--
+
+INSERT INTO `empresas` (`empresaId`, `adminId`, `fechaCreado`, `nombreEmpresa`, `NIT`, `contactoId`, `estado`, `comision`, `aprobado_por`, `aprobado_en`, `rechazado_por`, `rechazado_en`, `motivo_rechazo`, `correo`, `usuario`, `password`) VALUES
+(1, 1, '2025-05-04 12:59:14', 'Hotel Vista Lago', '061408071985', 3, 'pendiente', NULL, NULL, NULL, NULL, NULL, NULL, 'info@hotelvistalago.sv', 'vistalago', '$2y$10$vm1Sn3Dh0m5UH0cU5c1dNeiY0L.g6juU1vdieV1SFKcB7Y/Q6Rrsy'),
+(2, 1, '2025-11-02 18:17:46', 'MI EMPRESA', '565641564', 4, 'aprobada', 20.00, 0, '2025-11-12 22:17:40', NULL, NULL, NULL, 'EMPRESA@GMAIL.COM', 'empresa', '$2y$10$G1KLceMeN95L8eDYUxjUSuXEugHIPN9emmgDUiBRcUW8Cragg7cI2');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL,
+  `tipo` enum('admin','empresa','cliente') NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` char(64) NOT NULL,
+  `expira_en` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `password_resets`
+--
+
+INSERT INTO `password_resets` (`id`, `tipo`, `user_id`, `token`, `expira_en`) VALUES
+(1, 'admin', 1, '58b97418a9f34fc3cdcf89c353c379c5a2ffb666297090d7b210b9e35606782c', '2025-11-03 04:12:34');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tokens_recuperacion`
+--
+
+CREATE TABLE `tokens_recuperacion` (
+  `id` int(11) NOT NULL,
+  `clienteId` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `expira` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tokens_recuperacion`
+--
+
+INSERT INTO `tokens_recuperacion` (`id`, `clienteId`, `token`, `expira`) VALUES
+(1, 2, '58f9dcd6777dab79c6984ad1181719b04e4b5be3838234c15bdb653f7063deb6dee2a91a60aff82443076d2f21ab7e725f85', '2025-11-02 23:16:49'),
+(2, 2, 'b812a4d3e9710a2a9c8f2a121333320a0534b3e434d1352be293144563a6b8b4364f96c9d2fceebb24ca1bada91fcdcc43d7', '2025-11-02 23:17:26'),
+(3, 2, '35e2999a8c4aa90e62ee1f780692e5be6481bcd05788891f05ef96ba9562d42db56fefee092f5b4220442983cd3a3d9dc688', '2025-11-02 23:17:47'),
+(4, 2, '5ad1556b2ae06eb2f164688def5b7b222413866abc0163ab6179fcc4bb602b15f85a383958e5a46265a72cc17e4af21e0681', '2025-11-02 23:17:50'),
+(5, 2, '13cfb90129555ba88e6b4028cccabbf253f542fd769a8ac293cfe894f4a98af51ccb18e141f68ec896355a43851e8026cd97', '2025-11-02 23:20:58'),
+(6, 2, '6adc0f0fa3895cbfa6afe57e3e2e021bca4f5a775b04aff2e8e4e6d8f0270bf5989a8f89662a2c7cf5528281d8cca072b68b', '2025-11-03 00:16:50'),
+(7, 2, 'ce30012c83f2b0d5ed62885551ecf03403c750c0dc11074636f0f911b61dec4ca949d80d68baf19379f063d4fe6158c74f20', '2025-11-03 04:09:20');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tokens_recuperacion_empresas`
+--
+
+CREATE TABLE `tokens_recuperacion_empresas` (
+  `id` int(11) NOT NULL,
+  `empresaId` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `expira` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tokens_recuperacion_empresas`
+--
+
+INSERT INTO `tokens_recuperacion_empresas` (`id`, `empresaId`, `token`, `expira`) VALUES
+(1, 2, '424e8ad050c482e6b098cfc78a03d0b74975e9adb1d754053186da3da5f8b488d6f68a25c1f3aa5a3dc6c2635ce746ca6dcd', '2025-11-02 23:25:59'),
+(2, 2, 'dcf0813bde7fed1cb70972fddc1f9fc34c18faa9c313fb7a49be51e75aa0f51d82b30e866e31b8734dd32bbe6d9b2ab15a1c', '2025-11-02 23:26:26'),
+(3, 2, '8d52958b9a6c4616cf13caaa23cc9b18c1a65b5ba0312325c307a34ef614d03520622dddd2c4600856f3b860bc3e33644191', '2025-11-02 23:46:50'),
+(4, 2, 'b8ef512b05a090387c7e78e344649f715fc2ba88daea81b69291b750bddf2205649eeda1b52bdf6e7bb977d7209952e04be3', '2025-11-03 00:17:35'),
+(5, 2, 'f3028707d22ed5b73e69a3f70323052c6e181113e8793f24b9bd0d40b37369ac4b8223c19f821cf74daa2c001ea91f7ebacb', '2025-11-03 04:10:29');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `transacciones`
+--
+
+CREATE TABLE `transacciones` (
+  `transaccionId` int(11) NOT NULL,
+  `clienteId` int(11) NOT NULL,
+  `cuponId` int(11) NOT NULL,
+  `FechaCreado` timestamp NOT NULL DEFAULT current_timestamp(),
+  `estado` enum('pendiente','completado','cancelado','Reintegrado') NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `impuesto` decimal(10,2) NOT NULL,
+  `TotalPagar` decimal(10,2) NOT NULL,
+  `MetodoPago` enum('TarjetaCredito','Bitcoin','efectivo') NOT NULL,
+  `DetallesPago` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Índices para tablas volcadas
+--
+
+--
+-- Indices de la tabla `admincuentas`
+--
+ALTER TABLE `admincuentas`
+  ADD PRIMARY KEY (`adminId`),
+  ADD UNIQUE KEY `correo` (`correo`),
+  ADD UNIQUE KEY `usuario` (`usuario`);
+
+--
+-- Indices de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD PRIMARY KEY (`clienteId`),
+  ADD UNIQUE KEY `correo` (`correo`),
+  ADD UNIQUE KEY `usuario` (`usuario`),
+  ADD KEY `adminId` (`adminId`),
+  ADD KEY `contactoId` (`contactoId`);
+
+--
+-- Indices de la tabla `contactos`
+--
+ALTER TABLE `contactos`
+  ADD PRIMARY KEY (`contactoId`);
+
+--
+-- Indices de la tabla `cupones`
+--
+ALTER TABLE `cupones`
+  ADD PRIMARY KEY (`cuponId`),
+  ADD KEY `empresaId` (`empresaId`);
+
+--
+-- Indices de la tabla `empresas`
+--
+ALTER TABLE `empresas`
+  ADD PRIMARY KEY (`empresaId`),
+  ADD UNIQUE KEY `correo` (`correo`),
+  ADD KEY `adminId` (`adminId`),
+  ADD KEY `contactoId` (`contactoId`);
+
+--
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_tipo_user` (`tipo`,`user_id`),
+  ADD KEY `idx_token` (`token`);
+
+--
+-- Indices de la tabla `tokens_recuperacion`
+--
+ALTER TABLE `tokens_recuperacion`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `clienteId` (`clienteId`);
+
+--
+-- Indices de la tabla `tokens_recuperacion_empresas`
+--
+ALTER TABLE `tokens_recuperacion_empresas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `empresaId` (`empresaId`);
+
+--
+-- Indices de la tabla `transacciones`
+--
+ALTER TABLE `transacciones`
+  ADD PRIMARY KEY (`transaccionId`),
+  ADD KEY `clienteId` (`clienteId`),
+  ADD KEY `cuponId` (`cuponId`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `admincuentas`
+--
+ALTER TABLE `admincuentas`
+  MODIFY `adminId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  MODIFY `clienteId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `contactos`
+--
+ALTER TABLE `contactos`
+  MODIFY `contactoId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `cupones`
+--
+ALTER TABLE `cupones`
+  MODIFY `cuponId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `empresas`
+--
+ALTER TABLE `empresas`
+  MODIFY `empresaId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `tokens_recuperacion`
+--
+ALTER TABLE `tokens_recuperacion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT de la tabla `tokens_recuperacion_empresas`
+--
+ALTER TABLE `tokens_recuperacion_empresas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `transacciones`
+--
+ALTER TABLE `transacciones`
+  MODIFY `transaccionId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`adminId`) REFERENCES `admincuentas` (`adminId`),
+  ADD CONSTRAINT `clientes_ibfk_2` FOREIGN KEY (`contactoId`) REFERENCES `contactos` (`contactoId`);
+
+--
+-- Filtros para la tabla `cupones`
+--
+ALTER TABLE `cupones`
+  ADD CONSTRAINT `cupones_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`empresaId`);
+
+--
+-- Filtros para la tabla `empresas`
+--
+ALTER TABLE `empresas`
+  ADD CONSTRAINT `empresas_ibfk_1` FOREIGN KEY (`adminId`) REFERENCES `admincuentas` (`adminId`),
+  ADD CONSTRAINT `empresas_ibfk_2` FOREIGN KEY (`contactoId`) REFERENCES `contactos` (`contactoId`);
+
+--
+-- Filtros para la tabla `tokens_recuperacion`
+--
+ALTER TABLE `tokens_recuperacion`
+  ADD CONSTRAINT `tokens_recuperacion_ibfk_1` FOREIGN KEY (`clienteId`) REFERENCES `clientes` (`clienteId`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `tokens_recuperacion_empresas`
+--
+ALTER TABLE `tokens_recuperacion_empresas`
+  ADD CONSTRAINT `tokens_recuperacion_empresas_ibfk_1` FOREIGN KEY (`empresaId`) REFERENCES `empresas` (`empresaId`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `transacciones`
+--
+ALTER TABLE `transacciones`
+  ADD CONSTRAINT `transacciones_ibfk_1` FOREIGN KEY (`clienteId`) REFERENCES `clientes` (`clienteId`),
+  ADD CONSTRAINT `transacciones_ibfk_2` FOREIGN KEY (`cuponId`) REFERENCES `cupones` (`cuponId`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
