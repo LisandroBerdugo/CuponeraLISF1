@@ -31,6 +31,7 @@ Sistema de gestión de cupones y descuentos desarrollado para facilitar la admin
 │   ├── register-choice.css
 │   ├── registry.css
 │   └── style.css
+└── img/
 
 🚀 Instalación
 1. Clonar el repositorio:
@@ -54,4 +55,4 @@ cd CuponeraLISF1
 
 
 
-└── img/
+
