@@ -46,7 +46,7 @@ $isLogged = isset($_SESSION['cliente_id']) && (($_SESSION['tipo_usuario'] ?? '')
           <?php else: ?>
             <!-- Si no hay sesión, muestra opciones de login y registro -->
             <li>
-              <a href="../opt/login_cliente.php" title="Iniciar sesión">
+              <a href="../opt/login.html" title="Iniciar sesión">
                 <i class="fa fa-user"></i> Iniciar sesión
               </a>
             </li>

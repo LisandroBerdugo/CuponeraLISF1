@@ -284,6 +284,15 @@ ALTER TABLE `cupones`
   ADD PRIMARY KEY (`cuponId`),
   ADD KEY `empresaId` (`empresaId`);
 
+
+  ALTER TABLE cupones
+  ADD COLUMN FechaLimiteCanje DATE DEFAULT NULL
+  AFTER FechaFin,
+  MODIFY maximo INT(11) DEFAULT NULL;
+
+
+   
+
 --
 -- Indices de la tabla `empresas`
 --
